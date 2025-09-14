@@ -3,21 +3,33 @@ from pathlib import Path
 import pandas as pd
 from .utils import load_json, dated_dir
 
-NEEDED = ["State", "Year", "Population"]
+KEEP = [
+    "id", "name", "username", "email",
+    "address.city",
+    "company.name",
+]
+
+RENAME = {
+    "id": "user_id",
+    "address.city": "city",
+    "company.name": "company",
+}
 
 def process_to_csv(raw_path: str | Path) -> Path:
-    """Get raw JSON → select fields → rename → clean → add population_mln → CSV"""
+    """Raw JSON (/users) to normalized CSV """
     payload = load_json(raw_path)
     rows = payload.get("data", [])
-    df = pd.DataFrame(rows)
+    df = pd.json_normalize(rows)
 
-    df = df[NEEDED].copy()
-    df.rename(columns={"State": "state", "Year": "year", "Population": "population"}, inplace=True)
+    df = df[KEEP].copy()
+    df.rename(columns=RENAME, inplace=True)
 
-    df["population"] = pd.to_numeric(df["population"], errors="coerce")
-    df.dropna(subset=["state", "year", "population"], inplace=True)
+    df["user_id"] = pd.to_numeric(df["user_id"], errors="coerce").astype("Int64")
+    df["email"] = df["email"].astype(str).str.strip()
+    df.dropna(subset=["user_id", "email"], inplace=True)
 
-    df["population_mln"] = df["population"] / 1_000_000
+    df["email_domain"] = df["email"].str.split("@").str[-1].str.lower()
+    df["username_len"] = df["username"].astype(str).str.len()
 
     out = dated_dir("data/processed") / "data.csv"
     df.to_csv(out, index=False)
