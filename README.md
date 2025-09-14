@@ -20,8 +20,18 @@ python run.py
 - **Database**: `local.db` (SQLite database)
 - **Reports**: `reports/YYYY-MM-DD/report.json`
 
-## Source
+## Screenshots
 
-- Source API: https://jsonplaceholder.typicode.com/users (public fake API, no key).
-- Kept fields: user_id, name, username, email, city, company.
-- Calculated fields: email_domain, username_len.
+### Raw JSON saved
+![Raw JSON](docs/screenshots/raw_json.png)
+
+---
+
+### Processed CSV
+![Processed CSV](docs/screenshots/processed_csv.png)
+
+---
+
+### SQLite table preview
+
+![SQLite query and table](docs/screenshots/sqlite_table.png)
