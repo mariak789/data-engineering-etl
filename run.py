@@ -14,11 +14,11 @@ def main():
     print(f"   Saved CSV: {csv_path}")
 
     print("3) Loading → SQLite...")
-    db_path = load_csv_to_sqlite(csv_path)
+    db_path = load_csv_to_sqlite(csv_path)  
     print(f"   DB file: {db_path}")
 
     print("4) Running SQL analytics...")
-    report_path = run_queries(db_path)
+    report_path = run_queries(db_path)      
     print(f"   Report: {report_path}")
 
     print("\nDone ✅")
