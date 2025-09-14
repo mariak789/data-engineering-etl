@@ -1,0 +1,26 @@
+{
+  "avg_username_len": 9.8,
+  "unique_cities": 10,
+  "top_companies_by_users": [
+    {
+      "company": "Abernathy Group",
+      "users_count": 1
+    },
+    {
+      "company": "Considine-Lockman",
+      "users_count": 1
+    },
+    {
+      "company": "Deckow-Crist",
+      "users_count": 1
+    },
+    {
+      "company": "Hoeger LLC",
+      "users_count": 1
+    },
+    {
+      "company": "Johns Group",
+      "users_count": 1
+    }
+  ]
+}
