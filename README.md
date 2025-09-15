@@ -5,7 +5,7 @@
 - requests, pandas
 - SQLAlchemy
 - SQLite / PostgreSQL
-- Prefect
+- Prefect (bonus)
 
 ---
 
@@ -34,14 +34,6 @@ make run-pg     # start Postgres and run ETL
 #### Default connection:
 - ETL_DATABASE_URL=postgresql+psycopg2://etl:etl@localhost:5434/etl_db
 
-### Troubleshooting
-- Port conflict → set PG_PORT in .env (default 5434)
-- Role/DB missing → run inside container:
-```bash
-docker compose exec -T db psql -U postgres -c "CREATE USER etl WITH PASSWORD 'etl';"
-docker compose exec -T db psql -U postgres -c "CREATE DATABASE etl_db OWNER etl;"
-docker compose exec -T db psql -U postgres -d etl_db -c "GRANT ALL PRIVILEGES ON DATABASE etl_db TO etl;"
-```
 
 #### Verify DB contents
 ```bash
@@ -69,12 +61,8 @@ python -m flows.etl_flow
 #### Raw JSON saved
 ![Raw JSON](docs/screenshots/raw_json.png)
 
----
-
 #### Processed CSV
 ![Processed CSV](docs/screenshots/processed_csv.png)
-
----
 
 #### SQLite table preview
 ![SQLite query and table](docs/screenshots/sqlite_table.png)
@@ -83,6 +71,16 @@ python -m flows.etl_flow
 ![Raw JSON](docs/screenshots/report_json.png)
 
 ---
+
+### Troubleshooting
+- Port conflict → set PG_PORT in .env (default 5434)
+- Role/DB missing → run inside container:
+```bash
+docker compose exec -T db psql -U postgres -c "CREATE USER etl WITH PASSWORD 'etl';"
+docker compose exec -T db psql -U postgres -c "CREATE DATABASE etl_db OWNER etl;"
+docker compose exec -T db psql -U postgres -d etl_db -c "GRANT ALL PRIVILEGES ON DATABASE etl_db TO etl;"
+```
+
 
 ### Optional Bonus
 - Makefile for easy run/clean
