@@ -1,17 +1,54 @@
 # Data Engineering Pipeline
 
 ## Stack
-Python 3.10+, requests, pandas, SQLAlchemy, SQLite.
+- Python 3.10+
+- requests, pandas
+- SQLAlchemy
+- SQLite / PostgreSQL
+- Prefect
+
+---
 
 ## Data flow
-JSONPlaceholder API → save raw JSON → clean/enrich → save CSV → load to SQLite → run SQL → `reports/report.json`.
+`JSONPlaceholder API` → **raw JSON** → clean/enrich → **CSV** → load to DB (SQLite/Postgres) → run SQL → **JSON report**.
+
+---
 
 ## How to run
+
+### 1. Local (SQLite)
 ```bash
 python -m venv .venv
 source .venv/bin/activate      # Windows: .venv\Scripts\Activate.ps1
 pip install -r requirements.txt
+
 python run.py
+
+
+### 2. With Docker + PostgreSQL
+```bash
+make stop-pg    # stop container if running
+make run-pg     # start Postgres and run ETL
+
+
+### Default connection:
+- ETL_DATABASE_URL=postgresql+psycopg2://etl:etl@localhost:5434/etl_db
+
+---
+
+### Verify DB contents
+```bash
+psql "postgresql://etl:etl@localhost:5434/etl_db" -c '\dt'
+psql "postgresql://etl:etl@localhost:5434/etl_db" -c 'SELECT COUNT(*) FROM users;'
+
+
+---
+
+### 3. Prefect Flow
+```bash
+python -m flows.etl_flow
+```
+
 
 ## Artifacts
 
@@ -33,5 +70,6 @@ python run.py
 ---
 
 ### SQLite table preview
-
 ![SQLite query and table](docs/screenshots/sqlite_table.png)
+
+
