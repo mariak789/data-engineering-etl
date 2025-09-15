@@ -8,11 +8,10 @@ run:
 clean:
 	rm -rf data/raw/* data/processed/* reports/* local.db
 
-# start PostgreSQL in Docker and run ETL against it (uses DATABASE_URL)
+# switch to ETL_DATABASE_URL
 run-pg:
 	docker compose up -d db
-	DATABASE_URL=postgresql+psycopg2://etl:etl@localhost:5432/etl_db python run.py
+	ETL_DATABASE_URL=postgresql+psycopg2://etl:etl@localhost:5432/etl_db python run.py
 
-# stop and remove PostgreSQL container/volume
 stop-pg:
 	docker compose down -v
