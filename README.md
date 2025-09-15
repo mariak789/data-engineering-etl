@@ -23,23 +23,23 @@ source .venv/bin/activate      # Windows: .venv\Scripts\Activate.ps1
 pip install -r requirements.txt
 
 python run.py
+```
 
-
-2. With Docker + PostgreSQL
+### 2. With Docker + PostgreSQL
 ```bash
 make stop-pg    # stop container if running
 make run-pg     # start Postgres and run ETL
+```
 
-
-Default connection:
+#### Default connection:
 - ETL_DATABASE_URL=postgresql+psycopg2://etl:etl@localhost:5434/etl_db
 
 
-Verify DB contents
+#### Verify DB contents
 ```bash
 psql "postgresql://etl:etl@localhost:5434/etl_db" -c '\dt'
 psql "postgresql://etl:etl@localhost:5434/etl_db" -c 'SELECT COUNT(*) FROM users;'
-
+```
 
 ---
 
