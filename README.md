@@ -7,6 +7,32 @@
 - SQLite / PostgreSQL
 - Prefect (bonus)
 
+## API used
+- [JSONPlaceholder](https://jsonplaceholder.typicode.com/users)
+
+## Fields Selected and Processed
+- **Selected from API**:
+  - `id`
+  - `name`
+  - `username`
+  - `email`
+  - `address.city`
+  - `company.name`
+
+- **Renamed**:
+  - `id` → `user_id`
+  - `address.city` → `city`
+  - `company.name` → `company`
+
+- **Cleaned**:
+  - removed rows without `user_id` or `email`
+  - trimmed spaces in `email`
+  - converted `user_id` to integer
+
+- **Enriched**:
+  - `email_domain` (part after `@`)
+  - `username_len` (length of username)
+
 ---
 
 ## Data flow
@@ -37,8 +63,8 @@ make run-pg     # start Postgres and run ETL
 
 #### Verify DB contents
 ```bash
-psql "postgresql://etl:etl@localhost:5434/etl_db" -c '\dt'
-psql "postgresql://etl:etl@localhost:5434/etl_db" -c 'SELECT COUNT(*) FROM users;'
+docker compose exec -T db psql -U etl -d etl_db -c '\dt'
+docker compose exec -T db psql -U etl -d etl_db -c 'SELECT COUNT(*) FROM users;'
 ```
 
 ---
