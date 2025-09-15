@@ -58,17 +58,36 @@ python -m flows.etl_flow
 
 ## Screenshots
 
-### Raw JSON saved
+#### Raw JSON saved
 ![Raw JSON](docs/screenshots/raw_json.png)
 
 ---
 
-### Processed CSV
+#### Processed CSV
 ![Processed CSV](docs/screenshots/processed_csv.png)
 
 ---
 
-### SQLite table preview
+#### SQLite table preview
 ![SQLite query and table](docs/screenshots/sqlite_table.png)
 
+#### Report JSON
+![Raw JSON](docs/screenshots/report_json.png)
 
+---
+
+### Optional Bonus
+- Makefile for easy run/clean
+- docker-compose.yml with PostgreSQL
+- Mini Prefect DAG (flows/etl_flow.py)
+
+---
+
+### Troubleshooting
+- Port conflict → set PG_PORT in .env (default 5434)
+- Role/DB missing → run inside container:
+```bash
+docker compose exec -T db psql -U postgres -c "CREATE USER etl WITH PASSWORD 'etl';"
+docker compose exec -T db psql -U postgres -c "CREATE DATABASE etl_db OWNER etl;"
+docker compose exec -T db psql -U postgres -d etl_db -c "GRANT ALL PRIVILEGES ON DATABASE etl_db TO etl;"
+```
